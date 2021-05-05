@@ -37,13 +37,12 @@ RSpec.describe AppleAuth::UserIdentity do
     AppleAuth.config.apple_client_id = jwt_aud
   end
 
-  subject(:user_identity_service) { described_class.new(uid, signed_jwt) }
+  subject(:user_identity_service) { described_class.new(signed_jwt) }
 
   context '#valid?' do
     context 'when the parameters of the initilizer are correct' do
       let(:apple_body) { [exported_private_key] }
       let(:user_identity) { '1234.5678.910' }
-      let(:uid) { user_identity }
 
       it 'returns the validated JWT attributes' do
         expect(user_identity_service.validate!).to eq(jwt)
@@ -60,18 +59,6 @@ RSpec.describe AppleAuth::UserIdentity do
         it 'returns the validated JWT attributes' do
           expect(user_identity_service.validate!).to eq(jwt)
         end
-      end
-    end
-
-    context 'when the parameters of the initilizer are not correct' do
-      let(:apple_body) { [exported_private_key] }
-      let(:user_identity) { '1234.5678.910' }
-      let(:uid) { '1234.5678.911' }
-
-      it 'raises an exception' do
-        expect { user_identity_service.validate! }.to raise_error(
-          AppleAuth::Conditions::JWTValidationError
-        )
       end
     end
   end

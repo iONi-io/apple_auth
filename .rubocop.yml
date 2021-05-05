@@ -52,6 +52,8 @@ Layout/LineLength:
   # To make it possible to copy or click on URIs in the code, we allow lines
   # containing a URI to be longer than Max.
   AllowURI: true
+  Exclude:
+    - '*.gemspec'
   URISchemes:
     - http
     - https

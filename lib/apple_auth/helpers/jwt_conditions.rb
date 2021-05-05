@@ -11,26 +11,19 @@ module AppleAuth
       IssCondition
     ].freeze
 
-    attr_reader :user_identity, :decoded_jwt
+    attr_reader :decoded_jwt
 
-    def initialize(user_identity, decoded_jwt)
-      @user_identity = user_identity
+    def initialize(decoded_jwt)
       @decoded_jwt = decoded_jwt
     end
 
     def validate!
-      JWT::ClaimsValidator.new(decoded_jwt).validate! && validate_sub! && jwt_conditions_validate!
+      JWT::ClaimsValidator.new(decoded_jwt).validate! && jwt_conditions_validate!
     rescue JWT::InvalidPayload => e
       raise JWTValidationError, e.message
     end
 
     private
-
-    def validate_sub!
-      return true if user_identity && user_identity == decoded_jwt['sub']
-
-      raise JWTValidationError, 'Not valid Sub'
-    end
 
     def jwt_conditions_validate!
       conditions_results = CONDITIONS.map do |condition|

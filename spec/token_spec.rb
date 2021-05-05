@@ -15,9 +15,9 @@ RSpec.describe AppleAuth::Token do
         AppleAuth.config.redirect_uri = 'www.example.com'
       end
 
-      context 'when the acces token is not expired' do
+      context 'when the access token is not expired' do
         before do
-          mocked_data = OpenStruct.new(token: '1234', 'expired?': false)
+          mocked_data = OpenStruct.new(token: '1234', 'expired?': false, params: { id_token: '' })
           allow(token_service).to receive(:apple_access_token).and_return(mocked_data)
         end
 
@@ -30,12 +30,13 @@ RSpec.describe AppleAuth::Token do
         end
       end
 
-      context 'when the acces token is expired' do
+      context 'when the access token is expired' do
         before do
           mocked_data = OpenStruct.new('expired?': true,
                                        'expires?': true,
                                        refresh_token: '4321',
-                                       expires_at: 1_594_667_034)
+                                       expires_at: 1_594_667_034,
+                                       params: { id_token: '' })
           allow(token_service).to receive(:apple_access_token).and_return(mocked_data)
         end
 

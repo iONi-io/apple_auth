@@ -84,7 +84,7 @@ module AppleAuth
         refresh_token = access_token.refresh_token
         token_hash[:refresh_token] = refresh_token if refresh_token
       end
-      token_hash[:id_token] = access_token.params["id_token"]
+      token_hash[:id_token] = access_token.params['id_token']
 
       token_hash
     end

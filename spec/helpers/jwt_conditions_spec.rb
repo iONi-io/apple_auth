@@ -28,7 +28,7 @@ RSpec.describe AppleAuth::JWTConditions do
     AppleAuth.config.apple_client_id = 'com.apple_auth'
   end
 
-  subject(:jwt_conditions_helper) { described_class.new(user_identity, decoded_jwt) }
+  subject(:jwt_conditions_helper) { described_class.new(decoded_jwt) }
 
   context '#valid?' do
     context 'when decoded jwt attributes are valid and user_identity is valid' do
@@ -56,16 +56,6 @@ RSpec.describe AppleAuth::JWTConditions do
             AppleAuth::Conditions::JWTValidationError
           )
         end
-      end
-    end
-
-    context 'when jwt iss is different to user_identity' do
-      let(:jwt_sub) { '1234.5678.911' }
-
-      it 'raises an exception' do
-        expect { jwt_conditions_helper.validate! }.to raise_error(
-          AppleAuth::Conditions::JWTValidationError
-        )
       end
     end
 

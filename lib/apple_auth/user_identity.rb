@@ -4,17 +4,16 @@ module AppleAuth
   class UserIdentity
     APPLE_KEY_URL = 'https://appleid.apple.com/auth/keys'
 
-    attr_reader :user_identity, :jwt
+    attr_reader :jwt
 
-    def initialize(user_identity, jwt)
-      @user_identity = user_identity
+    def initialize(jwt)
       @jwt = jwt
     end
 
     def validate!
       token_data = decoded_jwt
 
-      JWTConditions.new(user_identity, token_data).validate!
+      JWTConditions.new(token_data).validate!
 
       token_data.symbolize_keys
     end
