@@ -7,8 +7,9 @@ module AppleAuth
     APPLE_CODE_TYPE = 'authorization_code'
     APPLE_ALG = 'ES256'
 
-    def initialize(code)
+    def initialize(code, client_id = nil)
       @code = code
+      @client_id_override = client_id
     end
 
     # :reek:FeatureEnvy
@@ -90,7 +91,13 @@ module AppleAuth
     end
 
     def apple_client_id
-      APPLE_CONFIG.apple_client_id[1] if APPLE_CONFIG.apple_client_id.is_a?(Array)
+      if APPLE_CONFIG.apple_client_id.is_a?(Array)
+        if APPLE_CONFIG.apple_client_id.includes?(@client_id_override)
+          return @client_id_override
+        else
+          raise StandardError('client id not in config')
+        end
+      end
 
       APPLE_CONFIG.apple_client_id
     end
