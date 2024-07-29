@@ -92,7 +92,7 @@ module AppleAuth
 
     def apple_client_id
       if APPLE_CONFIG.apple_client_id.is_a?(Array)
-        if APPLE_CONFIG.apple_client_id.includes?(@client_id_override)
+        if APPLE_CONFIG.apple_client_id.include?(@client_id_override)
           return @client_id_override
         else
           raise StandardError('client id not in config')

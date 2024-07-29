@@ -9,7 +9,7 @@ module AppleAuth
 
       def validate!
         if AppleAuth.config.apple_client_id.is_a?(Array)
-          return true if AppleAuth.config.apple_client_id.includes(@aud)
+          return true if AppleAuth.config.apple_client_id.include?(@aud)
         elsif @aud == AppleAuth.config.apple_client_id
           return true
         end
