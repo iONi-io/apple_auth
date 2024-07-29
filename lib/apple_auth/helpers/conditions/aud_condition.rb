@@ -8,7 +8,11 @@ module AppleAuth
       end
 
       def validate!
-        return true if @aud == AppleAuth.config.apple_client_id
+        if AppleAuth.config.apple_client_id.is_a?(Array)
+          return true if AppleAuth.config.apple_client_id.includes(@aud)
+        elsif @aud == AppleAuth.config.apple_client_id
+          return true
+        end
 
         raise JWTValidationError, 'jwt_aud is different to apple_client_id'
       end

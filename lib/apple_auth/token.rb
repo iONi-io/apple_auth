@@ -89,8 +89,14 @@ module AppleAuth
       token_hash
     end
 
+    def apple_client_id
+      APPLE_CONFIG.apple_client_id[1] if APPLE_CONFIG.apple_client_id.is_a?(Array)
+
+      APPLE_CONFIG.apple_client_id
+    end
+
     def apple_access_token
-      client = ::OAuth2::Client.new(APPLE_CONFIG.apple_client_id,
+      client = ::OAuth2::Client.new(apple_client_id,
                                     client_secret_from_jwt,
                                     client_urls)
       client.auth_code.get_token(code, { redirect_uri: APPLE_CONFIG.redirect_uri }, {})
