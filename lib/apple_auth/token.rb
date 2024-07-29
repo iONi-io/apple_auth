@@ -90,7 +90,7 @@ module AppleAuth
     end
 
     def apple_client_id
-      APPLE_CONFIG.apple_client_id[0] if APPLE_CONFIG.apple_client_id.is_a?(Array)
+      APPLE_CONFIG.apple_client_id[1] if APPLE_CONFIG.apple_client_id.is_a?(Array)
 
       APPLE_CONFIG.apple_client_id
     end
